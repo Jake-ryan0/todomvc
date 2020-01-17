@@ -70,6 +70,8 @@ jQuery(function ($) {
 			$('#toggle-all').prop('checked', this.getActiveTodos().length === 0);
 			this.renderFooter();
 			$('#new-todo').focus();
+		},
+		storeTodosLocally: function () {
 			util.store('todos-jquery', this.todos);
 		},
 		renderFooter: function () {
@@ -118,6 +120,7 @@ jQuery(function ($) {
 			this.todos = this.getActiveTodos();
 			this.filter = 'all';
 			this.render();
+			this.storeTodosLocally();
 		},
 		// accepts an element from inside the `.item` div and
 		// returns the corresponding index in the `todos` array
@@ -149,11 +152,13 @@ jQuery(function ($) {
 			$input.val('');
 
 			this.render();
+			this.storeTodosLocally();
 		},
 		toggle: function (e) {
 			var i = this.indexFromEl(e.target);
 			this.todos[i].completed = !this.todos[i].completed;
 			this.render();
+			this.storeTodosLocally();
 		},
 		edit: function (e) {
 			var $input = $(e.target).closest('li').addClass('editing').find('.edit');
@@ -185,10 +190,12 @@ jQuery(function ($) {
 			}
 
 			this.render();
+			this.storeTodosLocally();
 		},
 		destroy: function (e) {
 			this.todos.splice(this.indexFromEl(e.target), 1);
 			this.render();
+			this.storeTodosLocally();
 		}
 	};
 
